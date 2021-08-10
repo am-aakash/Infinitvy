@@ -56,6 +56,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   }
 
   _fetchPosts(int start, int limit) async {
+    //jsonplaceholder is an online REST API which serves fake data; it’s very useful for building prototypes.
     String url =
         'https://jsonplaceholder.typicode.com/posts?_start=$start&_limit=$limit';
     final response = await httpClient.get(Uri.parse(url));
