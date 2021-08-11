@@ -25,6 +25,9 @@ class PostsPage extends StatelessWidget {
         create: (_) => PostBloc(httpClient: http.Client())..add(PostFetched()),
         child: PostsList(),
       ),
+
+      // In our PostsPage widget, we use BlocProvider to create and provide an instance of PostBloc to the subtree.
+      // Also, we add a PostFetched event so that when the app loads, it requests the initial batch of Posts.
     );
   }
 }

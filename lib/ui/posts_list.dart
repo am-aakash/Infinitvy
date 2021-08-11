@@ -6,6 +6,7 @@ import 'widgets/bottom_loader.dart';
 import 'widgets/post_list_item.dart';
 
 class PostsList extends StatefulWidget {
+  //PostsList is a StatefulWidget because it will need to maintain a ScrollController.
   @override
   _PostsListState createState() => _PostsListState();
 }
@@ -14,6 +15,8 @@ class _PostsListState extends State<PostsList> {
   final _scrollController = ScrollController();
   late PostBloc _postBloc;
 
+  //In initState, we add a listener to our ScrollController so that we can respond to scroll events.
+  //We also access our PostBloc instance via context.read<PostBloc>()
   @override
   void initState() {
     super.initState();
@@ -21,6 +24,9 @@ class _PostsListState extends State<PostsList> {
     _postBloc = context.read<PostBloc>();
   }
 
+  //Our build method returns a BlocBuilder.
+  //BlocBuilder is a Flutter widget from the flutter_bloc package which handles building a widget in response to new bloc states.
+  //Any time our PostBloc state changes, our builder function will be called with the new PostState
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PostBloc, PostState>(
@@ -44,8 +50,9 @@ class _PostsListState extends State<PostsList> {
           return ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return index >= state.posts.length
-                  ? BottomLoader()
-                  : PostListItem(post: state.posts[index]);
+                  ? BottomLoader() //indicate to the user that we are loading more posts
+                  : PostListItem(
+                      post: state.posts[index]); //render an individual Post
             },
             itemCount: state.hasReachedMax
                 ? state.posts.length
@@ -60,11 +67,17 @@ class _PostsListState extends State<PostsList> {
     );
   }
 
+  // We need to remember to clean up after ourselves and dispose of our ScrollController when the StatefulWidget is disposed
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
   }
+
+  //   ->
+  //Whenever the user scrolls, we calculate how far you have scrolled down the page
+  //and if our distance is ≥ 90% of our maxScrollextent
+  //we add a PostFetched event in order to load more posts.
 
   void _onScroll() {
     if (_isBottom) _postBloc.add(PostFetched());

@@ -22,6 +22,16 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       transitionFn,
     );
   }
+  /*
+    Overriding transform allows us to transform the Stream before mapEventToState is called. 
+    This allows for operations like distinct(), debounceTime(), etc... to be applied.
+  */
+
+  /*
+  every time a PostEvent is added, 
+  if it is a PostFetched event and there are more posts to fetch, 
+  our PostBloc will fetch the next 20 posts.
+  */
 
   @override
   Stream<PostState> mapEventToState(PostEvent event) async* {
