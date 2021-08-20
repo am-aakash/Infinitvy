@@ -45,10 +45,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           return;
         }
         if (currentState is PostSuccess) {
-          final posts = await _fetchPosts(currentState.posts.length, 20);
-          if (posts.isEmpty) {
+          //fetch posts from api into posts
+          final posts = await _fetchPosts(currentState.posts.length, 20); 
+          if (posts.isEmpty) { //if not fetched
             yield currentState.copywith(hasReachedMax: true, posts: []);
-          } else {
+          } else { 
             yield PostSuccess(
               posts: currentState.posts + posts,
               hasReachedMax: false,

@@ -7,7 +7,7 @@ abstract class PostState extends Equatable {
   List<Object> get props => [];
 }
 
-/* ****************************************************************************************************************
+/* ***************************************************************************************************************
   Our presentation layer will need to have several pieces of information in order to properly lay itself out:
 
     PostInitial- will tell the presentation layer it needs to render a loading indicator while the initial batch of posts are loaded
@@ -17,6 +17,7 @@ abstract class PostState extends Equatable {
         hasReachedMax- will tell the presentation layer whether or not it has reached the maximum number of posts
 
     PostFailure- will tell the presentation layer that an error has occurred while fetching posts
+
   *********************************************************************************************************************/
 class PostInitial extends PostState {}
 
